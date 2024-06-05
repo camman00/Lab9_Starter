@@ -48,7 +48,6 @@
     }
   </style>
 </head>
-
 <body>
   <main>
     <form>
@@ -67,26 +66,24 @@
         <output></output>
       </fieldset>
     </form>
-
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button id="log">Console Log</button>
+      <button id="error">Console Error</button>
+      <button id="count">Console Count</button>
+      <button id="warn">Console Warn</button>
+      <button id="assert">Console Assert</button>
+      <button id="clear">Console Clear</button>
+      <button id="dir">Console Dir</button>
+      <button id="dirxml">Console dirxml</button>
+      <button id="groupStart">Console Group Start</button>
+      <button id="groupEnd">Console Group End</button>
+      <button id="table">Console Table</button>
+      <button id="startTimer">Start Timer</button>
+      <button id="endTimer">End Timer</button>
+      <button id="trace">Console Trace</button>
+      <button id="globalError">Trigger a Global Error</button>
     </section>
   </main>
-
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -97,12 +94,57 @@
       let operator = document.querySelector('#operator').value;
       output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
     });
-
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Start your code here
-    // You may move this JS to another file if you wish
+    document.getElementById('log').addEventListener('click', () => console.log('Console Log Demo'));
+    document.getElementById('error').addEventListener('click', () => console.error('Console Error Demo'));
+    document.getElementById('count').addEventListener('click', () => console.count('Console Count Demo'));
+    document.getElementById('warn').addEventListener('click', () => console.warn('Console Warn Demo'));
+    document.getElementById('assert').addEventListener('click', () => console.assert(false, 'Console Assert Demo'));
+    document.getElementById('clear').addEventListener('click', () => console.clear());
+    document.getElementById('dir').addEventListener('click', () => console.dir(document.body));
+    document.getElementById('dirxml').addEventListener('click', () => console.dirxml(document.body));
+    document.getElementById('groupStart').addEventListener('click', () => {
+      console.group('Console Group');
+      console.log('Inside Group');
+    });
+    document.getElementById('groupEnd').addEventListener('click', () => {
+      console.groupEnd();
+    });
+    document.getElementById('table').addEventListener('click', () => console.table([{ a: 1, b: 'Y' }, { a: 2, b: 'Z' }]));
+    document.getElementById('startTimer').addEventListener('click', () => console.time('Timer'));
+    document.getElementById('endTimer').addEventListener('click', () => console.timeEnd('Timer'));
+    document.getElementById('trace').addEventListener('click', () => console.trace('Trace Demo'));
+    document.getElementById('globalError').addEventListener('click', () => {
+      setTimeout(() => { throw new Error('Global Error Demo'); }, 0);
+    });
+    try {
+      undefinedFunction();
+    } catch (error) {
+      console.error('Caught an error:', error);
+    } finally {
+      console.log('This runs regardless of an error');
+    }
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = 'CustomError';
+      }
+    }
+    try {
+      throw new CustomError('This is a custom error');
+    } catch (error) {
+      console.error('Caught a custom error:', error);
+    }
+    window.onerror = function (message, source, lineno, colno, error) {
+      console.log('Global Error Caught: ', message);
+      return true; // Prevents the default browser error handling.
+    };
+    // <script src="https://cdn.trackjs.com/releases/current/tracker.js"></script>
+    // <script>
+    //   window.trackJs = {
+    //     token: 'YOUR_TRACKJS_TOKEN'
+    //   };
+    // </script>
   </script>
 </body>
-
 </html>
